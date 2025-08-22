@@ -1149,10 +1149,20 @@
                         // Modify steps to show abort scenario
                         steps = steps.slice(0, currentStep).concat([
                             { phase: 'Phase 2: Abort Phase', action: 'abort_decision', description: 'Coordinator decides ABORT due to participant failure' },
-                            { phase: 'Phase 2: Abort Phase', action: 'rollback', description: 'Coordinator sends ROLLBACK to all prepared participants' },
+                            { phase: 'Phase 2: Abort Phase', action: 'rollback', description: 'Coordinator sends ROLLBACK to all prepared participants' }, 
                             { phase: 'Recovery Phase', action: 'recovery_inquiry', description: `${randomParticipant} will inquire about transaction status upon recovery` }
                         ]);
 
+
+
+
+
+
+
+
+
+
+                        
                         coordinatorLog.decision = 'ABORT';
                         coordinatorLog.participantResponses[randomParticipant] = 'FAILED';
                         
