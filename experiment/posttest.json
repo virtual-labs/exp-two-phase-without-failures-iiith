@@ -2,38 +2,157 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "During Phase 1 of two-phase commit, what message does the coordinator send to all participants?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "COMMIT",
+        "b": "PREPARE",
+        "c": "VOTE_REQUEST",
+        "d": "BEGIN_TRANSACTION"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "COMMIT is sent during Phase 2 after the coordinator has made the decision",
+        "b": "Correct. PREPARE is the message sent in Phase 1 asking participants if they can commit",
+        "c": "While conceptually similar, the standard message name is PREPARE",
+        "d": "BEGIN_TRANSACTION would be sent before the commit protocol begins"
       },
-      "correctAnswer": "a",
+      "correctAnswer": "b",
       "difficulty": "beginner"
     },
     {
-      "question": "This is a Sample Question 2?",
+      "question": "What are the two possible responses a participant can send after receiving a PREPARE message?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "YES or NO",
+        "b": "COMMIT or ABORT",
+        "c": "VOTE_COMMIT or VOTE_ABORT",
+        "d": "READY or NOT_READY"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "While conceptually correct, the standard protocol uses more specific message names",
+        "b": "COMMIT and ABORT are decisions sent by the coordinator, not participant responses",
+        "c": "Correct. Participants respond with VOTE_COMMIT if they can commit or VOTE_ABORT if they cannot",
+        "d": "READY is a state, not a message response in the standard 2PC protocol"
       },
       "correctAnswer": "c",
       "difficulty": "beginner"
+    },
+    {
+      "question": "In the simulation, what happens to participants after they vote YES in Phase 1?",
+      "answers": {
+        "a": "They immediately commit the transaction",
+        "b": "They enter the PREPARED state and hold locks",
+        "c": "They release all resources and wait",
+        "d": "They send confirmation to other participants"
+      },
+      "explanations": {
+        "a": "Participants wait for the global decision before committing",
+        "b": "Correct. After voting YES, participants enter PREPARED state and continue holding their locks until Phase 2",
+        "c": "Resources and locks must be held until the final decision is made",
+        "d": "Participants only communicate with the coordinator, not with each other"
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "What determines whether the coordinator sends GLOBAL_COMMIT or GLOBAL_ABORT in Phase 2?",
+      "answers": {
+        "a": "The coordinator's own readiness to commit",
+        "b": "Whether the majority of participants voted to commit",
+        "c": "Whether ALL participants voted to commit",
+        "d": "The priority level of the transaction"
+      },
+      "explanations": {
+        "a": "The coordinator's decision is based solely on participant votes",
+        "b": "2PC requires unanimity, not majority - even one abort vote causes global abort",
+        "c": "Correct. Only if ALL participants vote to commit will the coordinator send GLOBAL_COMMIT; any abort vote results in GLOBAL_ABORT",
+        "d": "Transaction priority is not a factor in the 2PC decision process"
+      },
+      "correctAnswer": "c",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "According to the protocol phases, when do participants release their locks?",
+      "answers": {
+        "a": "Immediately after voting in Phase 1",
+        "b": "When they receive the global decision in Phase 2",
+        "c": "After executing the commit or abort and sending ACK",
+        "d": "Only when the entire transaction is complete across all nodes"
+      },
+      "explanations": {
+        "a": "Locks must be held through Phase 1 to ensure transaction integrity",
+        "b": "Receiving the decision is not sufficient; the participant must also execute it",
+        "c": "Correct. Participants release locks after executing the commit/abort decision and sending acknowledgment",
+        "d": "Each participant can release locks after completing its own commit/abort execution"
+      },
+      "correctAnswer": "c",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "In the failure scenario simulation, what causes a transaction to be aborted during Phase 1?",
+      "answers": {
+        "a": "Network congestion slowing down messages",
+        "b": "A participant failing before responding to PREPARE",
+        "c": "The coordinator taking too long to make a decision",
+        "d": "Lock contention between concurrent transactions"
+      },
+      "explanations": {
+        "a": "Network delays might cause timeouts but don't directly cause abort decisions",
+        "b": "Correct. If a participant fails during Phase 1, the coordinator will timeout waiting for its vote and decide to abort",
+        "c": "The coordinator's decision speed doesn't cause abortion; it's based on participant responses",
+        "d": "Lock contention is handled at the participant level and might cause a participant to vote abort"
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "What is the consequence of coordinator failure during Phase 2 (after making the decision)?",
+      "answers": {
+        "a": "All participants automatically abort the transaction",
+        "b": "Participants who voted commit remain blocked in PREPARED state",
+        "c": "The transaction outcome depends on which participants received the decision",
+        "d": "A new coordinator must be elected to complete the transaction"
+      },
+      "explanations": {
+        "a": "Participants cannot unilaterally abort after voting commit - this would violate atomicity",
+        "b": "Participants who received the decision can proceed; others remain blocked waiting",
+        "c": "Correct. Some participants may have received COMMIT/ABORT while others are still waiting, creating inconsistency until recovery",
+        "d": "While coordinator failover is possible, the immediate consequence is the inconsistent state"
+      },
+      "correctAnswer": "c",
+      "difficulty": "advanced"
+    },
+    {
+      "question": "In the context of recovery, what must a participant do if it finds 'READY' logged in its durable storage after restart?",
+      "answers": {
+        "a": "Assume the transaction was aborted and roll back",
+        "b": "Assume the transaction was committed and apply changes",
+        "c": "Contact the coordinator to learn the final decision",
+        "d": "Wait for other participants to contact it with the decision"
+      },
+      "explanations": {
+        "a": "The participant cannot assume abort - this might violate atomicity if others committed",
+        "b": "The participant cannot assume commit without confirmation from the coordinator",
+        "c": "Correct. A 'READY' state means the participant voted to commit but doesn't know the final decision, so it must contact the coordinator",
+        "d": "Other participants don't know the global decision either; only the coordinator does"
+      },
+      "correctAnswer": "c",
+      "difficulty": "advanced"
+    },
+    {
+      "question": "Why is two-phase commit considered a 'blocking' protocol?",
+      "answers": {
+        "a": "It blocks other transactions from starting while one is in progress",
+        "b": "Network messages can be blocked by failures or partitions",
+        "c": "Participants in READY state cannot proceed without coordinator contact",
+        "d": "The coordinator blocks until all participants respond"
+      },
+      "explanations": {
+        "a": "This describes a concurrency limitation, not the inherent blocking property of 2PC",
+        "b": "While network issues can occur, this isn't what makes 2PC fundamentally blocking",
+        "c": "Correct. Participants who voted commit and entered READY state cannot unilaterally abort - they are blocked waiting for the coordinator's decision",
+        "d": "Coordinator blocking on responses is normal protocol behavior, not the problematic blocking property"
+      },
+      "correctAnswer": "c",
+      "difficulty": "advanced"
     }
   ]
 }
