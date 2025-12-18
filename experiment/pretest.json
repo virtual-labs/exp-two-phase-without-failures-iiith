@@ -2,38 +2,157 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "What is the primary goal of a commit protocol in distributed systems?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "To improve performance of distributed transactions",
+        "b": "To ensure that all participants either commit or abort a transaction",
+        "c": "To reduce network communication between nodes",
+        "d": "To minimize the number of database locks required"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "While performance is important, the primary goal is ensuring atomicity, not performance optimization",
+        "b": "Correct. A commit protocol ensures atomicity - either all participants commit or all abort the transaction",
+        "c": "Commit protocols actually require additional communication to coordinate decisions",
+        "d": "Lock management is a separate concern from the commit protocol's main purpose"
       },
-      "correctAnswer": "a",
+      "correctAnswer": "b",
       "difficulty": "beginner"
     },
     {
-      "question": "This is a Sample Question 2?",
+      "question": "In distributed transactions, what property is most challenging to maintain across multiple nodes?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "Consistency",
+        "b": "Isolation",
+        "c": "Atomicity",
+        "d": "Durability"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "Consistency can be challenging but is manageable with proper coordination",
+        "b": "Isolation can be maintained through distributed locking mechanisms",
+        "c": "Correct. Atomicity is the most challenging because partial failures can leave some nodes committed while others abort",
+        "d": "Durability is typically handled by individual node's storage systems"
       },
       "correctAnswer": "c",
       "difficulty": "beginner"
+    },
+    {
+      "question": "What is the main problem with a one-phase commit protocol?",
+      "answers": {
+        "a": "It requires too many network messages",
+        "b": "It cannot handle concurrent transactions",
+        "c": "If the coordinator fails mid-execution, atomicity can be violated",
+        "d": "It is too slow for practical applications"
+      },
+      "explanations": {
+        "a": "One-phase commit actually uses fewer messages, but this isn't the main problem",
+        "b": "Concurrency control is a separate issue from the commit protocol",
+        "c": "Correct. If the coordinator crashes after sending some commit messages but not others, some participants commit while others don't",
+        "d": "Speed is not the primary concern; correctness is more important"
+      },
+      "correctAnswer": "c",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "What happens when a participant receives a PREPARE message in the two-phase commit protocol?",
+      "answers": {
+        "a": "It immediately commits the transaction",
+        "b": "It logs its readiness state and votes on whether it can commit",
+        "c": "It sends an acknowledgment to all other participants",
+        "d": "It releases all locks and resources"
+      },
+      "explanations": {
+        "a": "Participants don't commit until they receive the global decision in phase 2",
+        "b": "Correct. The participant evaluates if it can commit, logs 'READY' if yes, and votes accordingly",
+        "c": "Participants only communicate with the coordinator, not directly with other participants",
+        "d": "Locks are held until the final commit or abort decision is received and processed"
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "In two-phase commit, what determines whether the coordinator decides to commit or abort?",
+      "answers": {
+        "a": "The coordinator's own assessment of the transaction",
+        "b": "A majority vote from the participants",
+        "c": "Whether ALL participants vote to commit",
+        "d": "The participant with the highest priority"
+      },
+      "explanations": {
+        "a": "The coordinator bases its decision on participant votes, not its own assessment",
+        "b": "2PC requires unanimity, not majority - even one abort vote causes global abort",
+        "c": "Correct. The coordinator commits only if ALL participants vote to commit; even one abort vote results in global abort",
+        "d": "There is no priority system among participants in 2PC"
+      },
+      "correctAnswer": "c",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "What is the purpose of durable logging in the two-phase commit protocol?",
+      "answers": {
+        "a": "To improve transaction performance",
+        "b": "To enable recovery after node failures",
+        "c": "To maintain transaction statistics",
+        "d": "To support transaction rollback"
+      },
+      "explanations": {
+        "a": "Logging actually adds overhead and reduces performance, but it's necessary for correctness",
+        "b": "Correct. Durable logs allow crashed nodes to recover their state and determine what actions to take upon restart",
+        "c": "While logs may contain useful statistics, this is not their primary purpose in 2PC",
+        "d": "Rollback is one aspect, but the broader purpose is complete failure recovery"
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "What is the blocking problem in two-phase commit?",
+      "answers": {
+        "a": "Participants cannot process other transactions while waiting",
+        "b": "The coordinator becomes a bottleneck for all transactions",
+        "c": "Participants in READY state cannot unilaterally decide to abort if coordinator fails",
+        "d": "Network congestion prevents messages from being delivered"
+      },
+      "explanations": {
+        "a": "This describes a concurrency issue, not the specific blocking problem of 2PC",
+        "b": "While the coordinator can be a bottleneck, this isn't the blocking problem",
+        "c": "Correct. Participants who voted commit and are in READY state must wait for the coordinator's decision - they cannot abort unilaterally",
+        "d": "Network issues are separate from the inherent blocking nature of the protocol"
+      },
+      "correctAnswer": "c",
+      "difficulty": "advanced"
+    },
+    {
+      "question": "In the presumed abort optimization, what happens when a participant cannot find a transaction record after recovery?",
+      "answers": {
+        "a": "It assumes the transaction committed",
+        "b": "It contacts other participants for the decision",
+        "c": "It assumes the transaction was aborted",
+        "d": "It waits indefinitely for coordinator contact"
+      },
+      "explanations": {
+        "a": "Presumed abort means the opposite - absence of commit record implies abort",
+        "b": "Participants typically contact the coordinator, not other participants",
+        "c": "Correct. In presumed abort, if no commit record is found, the transaction is assumed to have been aborted",
+        "d": "The optimization is designed to avoid indefinite waiting by making reasonable assumptions"
+      },
+      "correctAnswer": "c",
+      "difficulty": "advanced"
+    },
+    {
+      "question": "What is a key trade-off when choosing timeout values in two-phase commit?",
+      "answers": {
+        "a": "Memory usage versus processing speed",
+        "b": "Security versus accessibility",
+        "c": "Sensitivity to failures versus false timeouts under high latency",
+        "d": "Consistency versus availability"
+      },
+      "explanations": {
+        "a": "Timeout values don't significantly impact memory or processing speed",
+        "b": "Timeout tuning is not primarily a security concern",
+        "c": "Correct. Short timeouts detect failures quickly but may cause false timeouts in slow networks; long timeouts reduce false positives but delay failure detection",
+        "d": "While related to CAP theorem, this is not the specific timeout tuning trade-off"
+      },
+      "correctAnswer": "c",
+      "difficulty": "advanced"
     }
   ]
 }
