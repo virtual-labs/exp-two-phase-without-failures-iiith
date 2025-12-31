@@ -770,11 +770,197 @@
             box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
         }
 
-        /* Mobile Landscape Support - Phones */
-        @media screen and (max-width: 768px) and (orientation: landscape) {
+        /* Mobile Inline Controls - Hidden by default on desktop */
+        .mobile-inline-controls {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 12px 12px 0 0;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            border-bottom: none;
+            z-index: 20;
+            flex-shrink: 0;
+        }
+
+        .inline-control-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .inline-select {
+            flex: 1;
+            padding: 8px 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            background: white;
+            color: #2d3748;
+            min-height: 38px;
+            cursor: pointer;
+        }
+
+        .inline-select:focus {
+            outline: none;
+            border-color: #3182ce;
+            box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.2);
+        }
+
+        .inline-btn {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            min-height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .inline-btn.btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #1e40af);
+            color: white;
+            flex: 1;
+        }
+
+        .inline-btn.btn-secondary {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            flex: 1;
+        }
+
+        .inline-btn.btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            min-width: 44px;
+        }
+
+        .inline-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Mobile Tab Navigation */
+        .mobile-tab-nav {
+            display: none;
+            background: white;
+            border-radius: 12px;
+            padding: 8px;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .mobile-tab-btn {
+            flex: 1;
+            padding: 12px 14px;
+            border: none;
+            border-radius: 8px;
+            background: #f1f5f9;
+            color: #64748b;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            min-height: 44px; /* Touch-friendly minimum */
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .mobile-tab-btn.active {
+            background: linear-gradient(135deg, #3b82f6, #1e40af);
+            color: white;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+        }
+
+        .mobile-tab-btn:hover:not(.active) {
+            background: #e2e8f0;
+        }
+        
+        .mobile-tab-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Tablet Landscape (769px - 1200px) */
+        @media screen and (min-width: 769px) and (max-width: 1200px) {
             .app-container {
                 grid-template-columns: 280px 1fr 300px;
-                grid-template-rows: 60px 1fr;
+                grid-template-rows: 70px 1fr;
+                gap: 12px;
+                padding: 12px;
+            }
+
+            .header h1 {
+                font-size: 1.6em;
+            }
+
+            .controls-panel {
+                height: calc(100vh - 94px);
+                padding: 15px;
+                gap: 15px;
+            }
+
+            .experiment-area {
+                height: calc(100vh - 94px);
+            }
+
+            .simulation-area {
+                padding: 15px;
+                min-height: 400px;
+            }
+
+            .coordinator {
+                width: 100px;
+                height: 100px;
+                font-size: 0.8rem;
+            }
+
+            .participant {
+                width: 70px;
+                height: 70px;
+                font-size: 0.7rem;
+            }
+
+            .observations-panel {
+                height: calc(100vh - 94px);
+                padding: 15px;
+            }
+
+            .logs {
+                height: 200px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .input-group {
+                padding: 12px;
+                margin-bottom: 15px;
+            }
+
+            .control-section {
+                padding: 15px;
+            }
+        }
+
+        /* Small Tablets and Large Phones Landscape */
+        @media screen and (max-width: 768px) and (orientation: landscape) {
+            .app-container {
+                grid-template-columns: 220px 1fr 240px;
+                grid-template-rows: 50px 1fr;
                 height: 100vh;
                 gap: 8px;
                 padding: 8px;
@@ -783,104 +969,282 @@
 
             .header {
                 grid-column: 1 / -1;
-                padding: 0 15px;
+                padding: 0 12px;
             }
 
             .header h1 {
-                font-size: 1.4em;
+                font-size: 1.2em;
+            }
+
+            .header > div:last-child {
+                display: none;
             }
 
             .controls-panel {
-                height: calc(100vh - 76px);
-                padding: 15px;
-                gap: 15px;
+                height: calc(100vh - 66px);
+                padding: 10px;
+                gap: 10px;
             }
 
             .control-section {
-                padding: 15px;
+                padding: 10px;
             }
 
             .control-section h3 {
-                font-size: 1em;
-                margin-bottom: 12px;
+                font-size: 0.85em;
+                margin-bottom: 8px;
             }
 
             .input-group {
-                padding: 12px;
-                margin-bottom: 15px;
+                padding: 8px;
+                margin-bottom: 10px;
+            }
+
+            .input-group label {
+                font-size: 0.75rem;
+                margin-bottom: 5px;
             }
 
             .btn {
-                padding: 10px 12px;
-                font-size: 0.8rem;
-                margin-bottom: 6px;
+                padding: 8px 10px;
+                font-size: 0.75rem;
+                margin-bottom: 5px;
             }
 
             select {
-                padding: 8px 10px;
-                font-size: 0.85rem;
+                padding: 6px 8px;
+                font-size: 0.8rem;
             }
 
             .experiment-area {
-                height: calc(100vh - 76px);
+                height: calc(100vh - 66px);
             }
 
             .simulation-area {
-                padding: 15px;
-                min-height: 350px;
+                padding: 10px;
+                min-height: 250px;
             }
 
             .coordinator {
-                width: 80px;
-                height: 80px;
-                font-size: 0.7rem;
+                width: 60px;
+                height: 60px;
+                font-size: 0.6rem;
+                border-width: 2px;
             }
 
             .participant {
-                width: 60px;
-                height: 60px;
-                font-size: 0.65rem;
+                width: 45px;
+                height: 45px;
+                font-size: 0.55rem;
+                border-width: 2px;
             }
 
             .legend-panel {
-                padding: 10px;
-                min-width: 140px;
-                font-size: 0.75rem;
-                top: 15px;
-                right: 15px;
+                padding: 8px;
+                min-width: 120px;
+                top: 10px;
+                right: 10px;
             }
 
             .legend-panel h4 {
+                font-size: 0.7rem;
+                margin-bottom: 6px;
+            }
+
+            .legend-item {
+                font-size: 0.6rem;
+                gap: 5px;
+            }
+
+            .legend-color {
+                width: 8px;
+                height: 8px;
+            }
+
+            .phase-indicator {
+                font-size: 0.7rem;
+                padding: 6px 10px;
+                top: 10px;
+                left: 10px;
+            }
+
+            .message {
+                font-size: 0.55rem;
+                padding: 3px 6px;
+            }
+
+            .observations-panel {
+                height: calc(100vh - 66px);
+                padding: 10px;
+                gap: 8px;
+            }
+
+            .status-section {
+                padding: 10px;
+            }
+
+            .status-section h4 {
                 font-size: 0.8rem;
                 margin-bottom: 8px;
             }
 
-            .legend-item {
-                font-size: 0.7rem;
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
                 gap: 6px;
             }
 
-            .legend-color {
-                width: 10px;
-                height: 10px;
+            .stat-card {
+                padding: 8px;
             }
 
-            .phase-indicator {
-                font-size: 0.8rem;
-                padding: 8px 12px;
-                top: 15px;
-                left: 15px;
+            .stat-value {
+                font-size: 1rem;
             }
 
-            .message {
+            .stat-label {
+                font-size: 0.6rem;
+            }
+
+            .stat-description {
+                display: none;
+            }
+
+            .logs {
+                height: 120px;
                 font-size: 0.65rem;
-                padding: 4px 8px;
+                padding: 8px;
+            }
+
+            .log-entry {
+                padding: 3px 6px;
+                font-size: 0.6rem;
+            }
+
+            .process-state-container {
+                display: none;
+            }
+        }
+
+        /* Tablet Portrait Mode */
+        @media screen and (max-width: 768px) and (orientation: portrait) {
+            body {
+                overflow: auto;
+            }
+
+            .app-container {
+                display: flex;
+                flex-direction: column;
+                height: auto;
+                min-height: 100vh;
+                gap: 8px;
+                padding: 8px;
+                border-radius: 0;
+            }
+
+            .header {
+                flex-shrink: 0;
+                padding: 10px 15px;
+                border-radius: 12px;
+                flex-direction: column;
+                text-align: center;
+                gap: 2px;
+            }
+
+            .header h1 {
+                font-size: 1.2em;
+            }
+
+            .header > div:last-child {
+                font-size: 0.7em;
+            }
+
+            .mobile-tab-nav {
+                display: flex;
+                flex-shrink: 0;
+            }
+
+            /* Hide desktop controls panel on mobile */
+            .controls-panel {
+                display: none !important;
             }
 
             .observations-panel {
-                height: calc(100vh - 76px);
+                display: none;
+                height: auto;
+                max-height: none;
+                overflow: visible;
                 padding: 15px;
-                gap: 12px;
+            }
+
+            .observations-panel.active {
+                display: flex;
+            }
+
+            /* Show inline controls on mobile */
+            .mobile-inline-controls {
+                display: flex;
+            }
+
+            .experiment-area {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                border-radius: 12px;
+                min-height: 0;
+            }
+
+            .experiment-area.active {
+                display: flex;
+            }
+
+            .experiment-area:not(.active) {
+                display: none;
+            }
+
+            /* Create square simulation container */
+            .simulation-area {
+                flex: 1;
+                position: relative;
+                padding: 10px;
+                min-height: 0;
+                aspect-ratio: 1 / 1;
+                max-height: calc(100vh - 240px);
+                width: 100%;
+                max-width: calc(100vh - 240px);
+                margin: 0 auto;
+            }
+
+            .coordinator {
+                width: 70px;
+                height: 70px;
+                font-size: 0.65rem;
+                border-width: 3px;
+                top: 50%;
+                left: 50%;
+            }
+
+            .participant {
+                width: 50px;
+                height: 50px;
+                font-size: 0.55rem;
+                border-width: 2px;
+            }
+
+            /* Hide legend on mobile to save space */
+            .legend-panel {
+                display: none;
+            }
+
+            .phase-indicator {
+                font-size: 0.7rem;
+                padding: 6px 10px;
+                top: 5px;
+                left: 5px;
+            }
+
+            .message {
+                font-size: 0.55rem;
+                padding: 3px 6px;
             }
 
             .status-section {
@@ -888,21 +1252,20 @@
             }
 
             .status-section h4 {
-                font-size: 0.9rem;
-                margin-bottom: 10px;
+                font-size: 0.95rem;
             }
 
             .stats-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 8px;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
             }
 
             .stat-card {
-                padding: 10px;
+                padding: 12px;
             }
 
             .stat-value {
-                font-size: 1.1rem;
+                font-size: 1.2rem;
             }
 
             .stat-label {
@@ -915,195 +1278,516 @@
 
             .logs {
                 height: 200px;
-                font-size: 0.7rem;
-                padding: 10px;
+                font-size: 0.8rem;
             }
 
             .log-entry {
-                padding: 4px 8px;
-                font-size: 0.65rem;
+                padding: 6px 10px;
+                font-size: 0.75rem;
             }
 
-            .tooltip {
-                font-size: 0.7rem;
-                padding: 4px 8px;
-            }
-        }
-
-        /* Mobile Landscape Support - Tablets */
-        @media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {
-            .app-container {
-                grid-template-columns: 300px 1fr 320px;
-                grid-template-rows: 70px 1fr;
-                gap: 12px;
+            .process-node {
                 padding: 12px;
             }
 
-            .header h1 {
-                font-size: 1.6em;
+            .process-node-name {
+                font-size: 0.9rem;
             }
 
-            .controls-panel {
-                height: calc(100vh - 94px);
-                padding: 18px;
+            .process-status-badge {
+                font-size: 0.65rem;
+                padding: 4px 10px;
             }
 
-            .experiment-area {
-                height: calc(100vh - 94px);
-            }
-
-            .simulation-area {
-                padding: 18px;
-                min-height: 400px;
-            }
-
-            .coordinator {
-                width: 100px;
-                height: 100px;
-                font-size: 0.8rem;
-            }
-
-            .participant {
-                width: 75px;
-                height: 75px;
-                font-size: 0.75rem;
-            }
-
-            .observations-panel {
-                height: calc(100vh - 94px);
-                padding: 18px;
-            }
-
-            .logs {
-                height: 250px;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
+            .participants-state {
+                max-height: 200px;
             }
         }
 
-        @media (max-width: 1200px) {
+        /* Small Mobile Portrait */
+        @media screen and (max-width: 480px) and (orientation: portrait) {
             .app-container {
-                grid-template-columns: 1fr;
-                grid-template-rows: 80px 1fr auto auto;
-                height: 100vh;
-                gap: 10px;
-                padding: 10px;
-            }
-            
-            .controls-panel {
-                height: 300px;
-                order: 2;
-            }
-            
-            .experiment-area {
-                order: 1;
-                min-height: 400px;
-            }
-            
-            .observations-panel {
-                height: 250px;
-                order: 3;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.5em;
-            }
-            
-            .participants {
-                gap: 40px;
-            }
-            
-            .participant {
-                width: 75px;
-                height: 75px;
-                font-size: 0.75rem;
-            }
-            
-            .coordinator {
-                width: 100px;
-                height: 100px;
-                font-size: 0.8rem;
-            }
-
-            .legend-panel {
-                position: relative;
-                top: auto;
-                left: auto;
-                margin-bottom: 15px;
-                min-width: auto;
-                width: 100%;
-            }
-
-            .legend-items {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
+                padding: 6px;
                 gap: 6px;
             }
 
-            .legend-item {
+            .header {
+                padding: 8px 12px;
+                flex-direction: column;
+                text-align: center;
+                gap: 2px;
+            }
+
+            .header h1 {
+                font-size: 1em;
+            }
+
+            .header > div:last-child {
+                font-size: 0.65em;
+            }
+
+            .mobile-tab-nav {
+                padding: 5px;
+                gap: 5px;
+            }
+
+            .mobile-tab-btn {
+                padding: 8px 6px;
+                font-size: 0.8rem;
+                min-height: 40px;
+            }
+
+            .mobile-tab-btn span.tab-text {
+                display: none;
+            }
+
+            /* Inline controls adjustments for small mobile */
+            .mobile-inline-controls {
+                padding: 8px 10px;
+                gap: 5px;
+            }
+
+            .inline-control-row {
+                gap: 5px;
+            }
+
+            .inline-select {
+                padding: 6px 8px;
                 font-size: 0.75rem;
+                min-height: 34px;
+            }
+
+            .inline-btn {
+                padding: 6px 10px;
+                font-size: 0.75rem;
+                min-height: 34px;
+            }
+
+            .experiment-area {
+                flex: 1;
+                min-height: 0;
+            }
+
+            /* Square simulation container for small phones */
+            .simulation-area {
+                padding: 8px;
+                aspect-ratio: 1 / 1;
+                max-height: calc(100vh - 220px);
+                width: 100%;
+                max-width: calc(100vh - 220px);
+                margin: 0 auto;
+            }
+
+            .coordinator {
+                width: 55px;
+                height: 55px;
+                font-size: 0.5rem;
+                top: 50%;
+                left: 50%;
+            }
+
+            .participant {
+                width: 40px;
+                height: 40px;
+                font-size: 0.45rem;
+            }
+
+            .legend-panel {
+                display: none;
+            }
+
+            .phase-indicator {
+                font-size: 0.6rem;
+                padding: 4px 8px;
+                top: 4px;
+                left: 4px;
+            }
+
+            .message {
+                font-size: 0.45rem;
+                padding: 2px 5px;
+            }
+
+            .status-section {
+                padding: 10px;
+            }
+
+            .status-section h4 {
+                font-size: 0.9rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
                 gap: 8px;
             }
 
-            .legend-color {
-                width: 12px;
-                height: 12px;
+            .stat-card {
+                padding: 10px;
+            }
+
+            .stat-value {
+                font-size: 1.1rem;
+            }
+
+            .stat-label {
+                font-size: 0.65rem;
+            }
+
+            .stat-description {
+                display: none;
+            }
+
+            .logs {
+                height: 180px;
+                font-size: 0.75rem;
+            }
+
+            .log-entry {
+                padding: 5px 8px;
+                font-size: 0.7rem;
+            }
+
+            .process-state-container {
+                gap: 8px;
+            }
+
+            .process-node {
+                padding: 10px;
+            }
+
+            .process-node-header {
+                gap: 6px;
+            }
+
+            .process-node-icon {
+                font-size: 1em;
+            }
+
+            .process-node-name {
+                font-size: 0.85rem;
+            }
+
+            .participants-state {
+                max-height: 180px;
+            }
+
+            .control-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+
+            #speedValue {
+                text-align: center;
             }
         }
-        
-        /* Mobile Portrait Orientation Overlay */
-        .rotate-device-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            z-index: 10000;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
 
-        .rotate-device-overlay .rotate-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            animation: rotateAnimation 2s ease-in-out infinite;
-        }
-
-        .rotate-device-overlay h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-
-        .rotate-device-overlay p {
-            font-size: 1rem;
-            opacity: 0.9;
-            line-height: 1.5;
-            max-width: 300px;
-        }
-
-        @keyframes rotateAnimation {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-15deg); }
-            75% { transform: rotate(15deg); }
-        }
-
-        @media screen and (max-width: 768px) and (orientation: portrait) {
-            .rotate-device-overlay {
-                display: flex !important;
-            }
-            
+        /* Extra Small Mobile Portrait (iPhone SE, etc.) */
+        @media screen and (max-width: 375px) and (orientation: portrait) {
             .app-container {
-                display: none !important;
+                padding: 4px;
+                gap: 5px;
             }
+
+            .header {
+                padding: 6px 10px;
+            }
+
+            .header h1 {
+                font-size: 0.9em;
+            }
+
+            .mobile-tab-btn {
+                padding: 6px 5px;
+                font-size: 0.9rem;
+                min-height: 36px;
+            }
+
+            .mobile-inline-controls {
+                padding: 6px 8px;
+                gap: 4px;
+            }
+
+            .inline-select {
+                padding: 5px 6px;
+                font-size: 0.7rem;
+                min-height: 30px;
+            }
+
+            .inline-btn {
+                padding: 5px 8px;
+                font-size: 0.7rem;
+                min-height: 30px;
+            }
+
+            .experiment-area {
+                flex: 1;
+            }
+
+            /* Square container for extra small phones */
+            .simulation-area {
+                padding: 5px;
+                aspect-ratio: 1 / 1;
+                max-height: calc(100vh - 200px);
+                width: 100%;
+                max-width: calc(100vh - 200px);
+                margin: 0 auto;
+            }
+
+            .coordinator {
+                width: 48px;
+                height: 48px;
+                font-size: 0.45rem;
+                top: 50%;
+                left: 50%;
+            }
+
+            .participant {
+                width: 34px;
+                height: 34px;
+                font-size: 0.4rem;
+            }
+
+            .legend-panel {
+                display: none;
+            }
+
+            .phase-indicator {
+                font-size: 0.5rem;
+                padding: 3px 5px;
+                top: 3px;
+                left: 3px;
+            }
+
+            .stat-card {
+                padding: 8px;
+            }
+
+            .stat-value {
+                font-size: 1rem;
+            }
+
+            .logs {
+                height: 150px;
+            }
+        }
+
+        /* Mobile Landscape */
+        @media screen and (max-width: 900px) and (orientation: landscape) {
+            .app-container {
+                grid-template-columns: 200px 1fr 200px;
+                gap: 8px;
+                padding: 8px;
+            }
+
+            .header h1 {
+                font-size: 1.1em;
+            }
+
+            .controls-panel,
+            .observations-panel {
+                padding: 10px;
+            }
+
+            .control-section {
+                padding: 8px;
+            }
+
+            .input-group {
+                padding: 8px;
+                margin-bottom: 8px;
+            }
+
+            .btn {
+                padding: 8px;
+                font-size: 0.75rem;
+            }
+
+            .coordinator {
+                width: 55px;
+                height: 55px;
+                font-size: 0.55rem;
+            }
+
+            .participant {
+                width: 40px;
+                height: 40px;
+                font-size: 0.5rem;
+            }
+
+            .legend-panel {
+                display: none;
+            }
+
+            .logs {
+                height: 80px;
+            }
+
+            .process-state-container {
+                display: none;
+            }
+        }
+
+        /* General touch device improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .btn:hover {
+                transform: none;
+                box-shadow: none;
+            }
+
+            .btn:active {
+                transform: scale(0.98);
+            }
+
+            .stat-card:hover {
+                transform: none;
+                box-shadow: none;
+            }
+
+            .process-node:hover {
+                transform: none;
+                box-shadow: none;
+            }
+
+            /* Improve scroll behavior */
+            .logs,
+            .participants-state,
+            .controls-panel,
+            .observations-panel {
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Disable text selection on interactive elements */
+            .btn,
+            .mobile-tab-btn,
+            select {
+                -webkit-user-select: none;
+                user-select: none;
+            }
+        }
+
+        /* Safe area insets for notched devices */
+        @supports (padding: max(0px)) {
+            @media screen and (max-width: 768px) {
+                .app-container {
+                    padding-left: max(10px, env(safe-area-inset-left));
+                    padding-right: max(10px, env(safe-area-inset-right));
+                    padding-bottom: max(10px, env(safe-area-inset-bottom));
+                }
+            }
+        }
+
+        /* Hide rotate overlay - we now support portrait */
+        .rotate-device-overlay {
+            display: none !important;
+        }
+
+        .process-state-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .process-node {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .process-node:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .process-node-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .process-node-icon {
+            font-size: 1.2em;
+        }
+
+        .process-node-name {
+            font-weight: 600;
+            color: #2d3748;
+            flex: 1;
+        }
+
+        .process-status-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .process-status-badge.status-ready {
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            color: #0369a1;
+        }
+
+        .process-status-badge.status-active {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            color: #047857;
+            animation: statusPulse 2s infinite;
+        }
+
+        .process-status-badge.status-failed {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            color: #dc2626;
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .process-node-details {
+            padding-left: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .detail-item {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .participants-state {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .participants-state::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .participants-state::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 2px;
+        }
+
+        .participants-state::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 2px;
+        }
+
+        .tooltip {
+            white-space: pre-line;
+            line-height: 1.4;
         }
