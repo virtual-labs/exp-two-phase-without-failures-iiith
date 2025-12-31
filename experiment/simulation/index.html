@@ -2,13 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>2-Phase Commit Protocol Simulation</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="app-container" style="height: 100vh; grid-template-rows: 1fr;">
-        <div class="controls-panel">
+    <div class="app-container">
+        <header class="header">
+            <h1>
+                2-Phase Commit Protocol
+                <div class="status-indicator"></div>
+            </h1>
+            <div style="font-size: 0.9em; opacity: 0.9;">
+                Distributed Transaction Simulation
+            </div>
+        </header>
+
+        <!-- Mobile Tab Navigation -->
+        <nav class="mobile-tab-nav" id="mobileTabNav">
+            <button class="mobile-tab-btn active" data-tab="simulation">
+                🎯 <span class="tab-text">Simulation</span>
+            </button>
+            <button class="mobile-tab-btn" data-tab="observations">
+                📊 <span class="tab-text">Logs</span>
+            </button>
+        </nav>
+
+        <div class="controls-panel" id="controlsPanel">
             <div class="control-section">
                 <h3>Transaction Configuration</h3>
                 <div class="input-group">
@@ -65,7 +88,7 @@
             </div>
         </div>
 
-        <div class="experiment-area">
+        <div class="experiment-area active" id="experimentArea">
             <div class="simulation-area">
                 <div class="legend-panel">
                     <h4>Legend</h4>
@@ -102,14 +125,63 @@
                     System Failure Detected!
                 </div>
             </div>
+
+            <!-- Mobile Inline Controls - Moved to bottom -->
+            <div class="mobile-inline-controls" id="mobileInlineControls">
+                <div class="inline-control-row">
+                    <select id="participantCountMobile" class="inline-select">
+                        <option value="3">3 Nodes</option>
+                        <option value="4">4 Nodes</option>
+                        <option value="5">5 Nodes</option>
+                        <option value="6">6 Nodes</option>
+                    </select>
+                    <select id="failureModeMobile" class="inline-select">
+                        <option value="none">No Failure</option>
+                        <option value="coordinator_phase1">Coord Fail P1</option>
+                        <option value="coordinator_phase2">Coord Fail P2</option>
+                        <option value="participant_phase1">Part Fail P1</option>
+                        <option value="participant_phase2">Part Fail P2</option>
+                        <option value="network_partition">Network Split</option>
+                        <option value="timeout">Timeout</option>
+                    </select>
+                </div>
+                <div class="inline-control-row">
+                    <select id="simulationModeMobile" class="inline-select">
+                        <option value="manual">Manual</option>
+                        <option value="automatic">Auto</option>
+                    </select>
+                    <button id="nextStepBtnMobile" class="inline-btn btn-primary">➡️ Next</button>
+                    <button id="runAutoBtnMobile" class="inline-btn btn-secondary" style="display: none;">▶️ Run</button>
+                    <button id="resetBtnMobile" class="inline-btn btn-danger">🔄</button>
+                </div>
+            </div>
         </div>
 
-        <div class="observations-panel">
+        <div class="observations-panel" id="observationsPanel">
             <div class="status-section">
                 <h4>Transaction Log</h4>
                 <div class="logs" id="logContainer">
                     <div class="log-entry info">[System] 2-Phase Commit Protocol initialized</div>
                     <div class="log-entry info">[Info] Click 'Start Transaction' to begin distributed transaction</div>
+                </div>
+            </div>
+
+            <div class="status-section">
+                <h4>Process State</h4>
+                <div class="process-state-container">
+                    <div class="process-node">
+                        <div class="process-node-header">
+                            <span class="process-node-icon">🎯</span>
+                            <span class="process-node-name">Coordinator</span>
+                            <span class="process-status-badge" id="coordinatorStatus">Ready</span>
+                        </div>
+                        <div class="process-node-details" id="coordinatorDetails">
+                            <div class="detail-item">State: <span class="detail-value">Idle</span></div>
+                        </div>
+                    </div>
+                    <div class="participants-state" id="participantsState">
+                        <!-- Participant states will be dynamically added here -->
+                    </div>
                 </div>
             </div>
 
